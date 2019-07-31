@@ -61,6 +61,8 @@ router.post(
 router.get(
   '/player/:id',
   (request, response, next) => {
+    // {include: [Team]} for show team info in player query (GET)...
+    // do not have to make 2 separate GET for that » good for the server 
     Player.findByPk(request.params.id, { include: [Team] })
       .then(player => response.send(player))
       .catch(error => next(error))
