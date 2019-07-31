@@ -3,6 +3,8 @@
 const Team = require('../team/model')
 const { Router } = require('express')
 const Player = require('./model')
+// I had to out the next line, but earlier it wasn't needed...
+const Sequelize = require('sequelize')
 // const Op = require("sequelize").Op
 
 const router = new Router()
@@ -22,9 +24,12 @@ router.get(
 // ...implement in top-level index.js
 // test it » http :4000/player name="yeeeeahh"
 // also works » http PUT :4000/player name="yeeeeahh"
+
 router.post(
   '/player',
   (request, response, next) => {
+    const keys = Object.keys(request.body)
+    const filters = keys.map(key => ({ [key]: request.body[key] }))
     Player
     // findOne » have to find 1 where the name is...
     // the request.body.name
@@ -37,7 +42,10 @@ router.post(
           // const Op = require("sequelize").Op on the top!!!
           // but you do not have to import anything if you use...
           // [Sequelize.Op.or] instead of [Op.or]
-          [Sequelize.Op.or]: [{ name: request.body.name }, { number: request.body.number }]
+          // [Sequelize.Op.or]: [{ name: request.body.name }, { number: request.body.number }]
+          // another solution, const keys & filters also needed!!!
+          // you can create player without number now
+          [Sequelize.Op.or]: filters
         }
       })
       .then(player => {
