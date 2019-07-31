@@ -28,8 +28,8 @@ router.get(
 router.post(
   '/player',
   (request, response, next) => {
-    const keys = Object.keys(request.body)
-    const filters = keys.map(key => ({ [key]: request.body[key] }))
+    // const keys = Object.keys(request.body)
+    // const filters = keys.map(key => ({ [key]: request.body[key] }))
     Player
     // findOne » have to find 1 where the name is...
     // the request.body.name
@@ -42,10 +42,11 @@ router.post(
           // const Op = require("sequelize").Op on the top!!!
           // but you do not have to import anything if you use...
           // [Sequelize.Op.or] instead of [Op.or]
-          // [Sequelize.Op.or]: [{ name: request.body.name }, { number: request.body.number }]
+          [Sequelize.Op.or]: [{ name: request.body.name }, { number: request.body.number }]
           // another solution, const keys & filters also needed!!!
-          // you can create player without number now
-          [Sequelize.Op.or]: filters
+          // you can create player without number now...
+          // but cannot put two people in the same team » not OK
+          // [Sequelize.Op.or]: filters
         }
       })
       .then(player => {
