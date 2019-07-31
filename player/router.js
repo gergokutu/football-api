@@ -3,7 +3,7 @@
 const Team = require('../team/model')
 const { Router } = require('express')
 const Player = require('./model')
-const Op = require("sequelize").Op
+// const Op = require("sequelize").Op
 
 const router = new Router()
 
@@ -35,7 +35,9 @@ router.post(
           // check the sequelize operators and their usage...
           // also have to import »
           // const Op = require("sequelize").Op on the top!!!
-          [Op.or]: [{ name: request.body.name }, { number: request.body.number }]
+          // but you do not have to import anything if you use...
+          // [Sequelize.Op.or] instead of [Op.or]
+          [Sequelize.Op.or]: [{ name: request.body.name }, { number: request.body.number }]
         }
       })
       .then(player => {
