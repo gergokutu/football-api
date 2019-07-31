@@ -9,7 +9,10 @@ const teamRouter = require('./team/router')
 const app = express()
 // configuring the port (we might get one if we are putting our app online)
 const port = process.env.PORT || 4000
-
+// import parser
+const bodyParser = require('body-parser')
+const jsonParser = bodyParser.json()
+app.use(jsonParser)
 app.use(teamRouter)
 
 // Pass the port to app.listen to start the server
