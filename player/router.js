@@ -3,6 +3,7 @@
 const Team = require('../team/model')
 const { Router } = require('express')
 const Player = require('./model')
+const Op = require("sequelize").Op
 
 const router = new Router()
 
@@ -29,11 +30,18 @@ router.post(
     // the request.body.name
     // then » if it exists (true) » do not do anything...
     // just send a status code and answer
-      .findOne({ where: { name: request.body.name }})
+      .findOne({
+        where: {
+          // check the sequelize operators and their usage...
+          // also have to import »
+          // const Op = require("sequelize").Op on the top!!!
+          [Op.or]: [{ name: request.body.name }, { number: request.body.number }]
+        }
+      })
       .then(player => {
         if (player) {
           // proper order to send both http status code and a message
-          response.status(403).send("Name already used.",)
+          response.status(403).send("Name and/or number already used.",)
         } else {
           // returning Player here to not to use catch 2x
           return Player
