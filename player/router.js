@@ -43,7 +43,7 @@ router.post(
       .then(player => {
         if (player) {
           // proper order to send both http status code and a message
-          response.status(403).send("Name and/or number already used.",)
+          response.status(403).send("Name and/or number already used.")
         } else {
           // returning Player here to not to use catch 2x
           return Player
@@ -53,7 +53,8 @@ router.post(
             // .catch(error => next(error))
         }
       })
-      .catch(next)
+      .catch(error => next(error))
+      // but .catch(next) is the same
   }
 )
 
