@@ -1,3 +1,6 @@
+// this has to be at the start of the file...
+// const Team = require('../team/model')
+const Team = require('../team/model')
 const { Router } = require('express')
 const Player = require('./model')
 
@@ -47,7 +50,7 @@ router.post(
 router.get(
   '/player/:id',
   (request, response, next) => {
-    Player.findByPk(request.params.id)
+    Player.findByPk(request.params.id, { include: [Team] })
       .then(player => response.send(player))
       .catch(error => next(error))
   }
